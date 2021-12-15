@@ -131,6 +131,29 @@ public class Main {
         return dateFormat.format(date);
     }
 
+    static String[][] search(String[] menuMakanan, int[] hargaMakanan, String[] jenisMakanan, String stateMenu, String keyword) {
+        String[][] searchedArray = new String[SIZE_DEFAULT_ARRAY][3];
+        int idx = 0;
+        for (int i = 0; i < SIZE_DEFAULT_ARRAY; i++) {
+            if (stateMenu.equals(STATE_MENU_MAKANAN)) {
+                if (menuMakanan[i].contains(keyword)) {
+                    searchedArray[idx][0] = menuMakanan[i];
+                    searchedArray[idx][1] = String.valueOf(hargaMakanan[i]);
+                    searchedArray[idx][2] = jenisMakanan[i];
+                    idx++;
+                }
+            } else if (stateMenu.equals(STATE_MENU_JENIS)) {
+                if (menuMakanan[i].contains(keyword)) {
+                    searchedArray[idx][0] = menuMakanan[i];
+                    searchedArray[idx][1] = String.valueOf(hargaMakanan[i]);
+                    searchedArray[idx][2] = jenisMakanan[i];
+                    idx++;
+                }
+            }
+        }
+        return searchedArray;
+    }
+
     static void mainKasir() {
         initAutoMenu(0);
         int pilihMenu = 0;
@@ -396,29 +419,6 @@ public class Main {
                 }
             }
         }
-    }
-
-    static String[][] search(String[] menuMakanan, int[] hargaMakanan, String[] jenisMakanan, String stateMenu, String keyword) {
-        String[][] searchedArray = new String[SIZE_DEFAULT_ARRAY][3];
-        int idx = 0;
-        for (int i = 0; i < SIZE_DEFAULT_ARRAY; i++) {
-            if (stateMenu.equals(STATE_MENU_MAKANAN)) {
-                if (menuMakanan[i].contains(keyword)) {
-                    searchedArray[idx][0] = menuMakanan[i];
-                    searchedArray[idx][1] = String.valueOf(hargaMakanan[i]);
-                    searchedArray[idx][2] = jenisMakanan[i];
-                    idx++;
-                }
-            } else if (stateMenu.equals(STATE_MENU_JENIS)) {
-                if (menuMakanan[i].contains(keyword)) {
-                    searchedArray[idx][0] = menuMakanan[i];
-                    searchedArray[idx][1] = String.valueOf(hargaMakanan[i]);
-                    searchedArray[idx][2] = jenisMakanan[i];
-                    idx++;
-                }
-            }
-        }
-        return searchedArray;
     }
 
     static void showDaftarMenu(String[] menuMakanan, int[] hargaMakanan, String[] jenisMakanan) {
