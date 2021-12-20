@@ -362,6 +362,7 @@ public class Main {
     }
 
     static void readPenjualan() {
+        int totalKeuntungan = 0;
         System.out.println(LINE_BORDER);
         if (INDEX_VALUED_ARRAY_DATA_JUAL == 0) {
             System.out.println("Tidak Ada Penjualan Saat Ini");
@@ -378,7 +379,25 @@ public class Main {
                 // Index ke 6 -> SubTotal Harga Makanan
 
                 if (arrayJual[i][1] != null) {
-                    System.out.println((i + 1) + ".\t [" + arrayJual[i][0] + "] \t [" + arrayJual[i][1] + "] \t - " + arrayJual[i][2]);
+                    System.out.println((i + 1) + ".\t [" + arrayJual[i][1] + "] \t [" + arrayJual[i][5] + "] \t - " + arrayJual[i][2] + " \t - " + arrayJual[i][6]);
+                    totalKeuntungan = totalKeuntungan + Integer.parseInt(arrayJual[i][6]);
+                }
+            }
+            System.out.println(LINE_BORDER);
+            System.out.println("Total Keuntungan : " + totalKeuntungan);
+        }
+        System.out.println(LINE_BORDER);
+    }
+
+    static void readPenjualanLaris() {
+        System.out.println(LINE_BORDER);
+        if (INDEX_VALUED_ARRAY_DATA_JUAL == 0) {
+            System.out.println("Tidak Ada Menu Paling Laris");
+        } else {
+            System.out.println(">> Menu Makanan Paling Laris");
+            for (int i = 0; i < 5; i++) {
+                if (arrayJual[i][1] != null) {
+                    System.out.println((i + 1) + ". " + arrayJual[i][2]);
                 }
             }
         }
@@ -613,9 +632,7 @@ public class Main {
                 }
 
                 case 2 -> {
-                    System.out.println(LINE_BORDER);
-                    System.out.println("Menu Makanan Paling Laris");
-                    System.out.println(LINE_BORDER);
+                    readPenjualanLaris();
                 }
 
                 case 8 -> {
