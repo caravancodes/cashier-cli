@@ -436,7 +436,6 @@ public class Main {
                 case 1 -> {
                     readMenuMakanan(namaMakanan, jenisMakanan, hargaMakanan);
                 }
-
                 case 2 -> {
                     System.out.println("Masukkan Data Daftar Makanan");
                     System.out.println(LINE_BORDER);
@@ -457,7 +456,6 @@ public class Main {
                         case 2 -> addMenuMakanan(inputNamaMakanan, ITEM_JENIS_MINUMAN, inputHargaMakanan);
                         case 3 -> addMenuMakanan(inputNamaMakanan, ITEM_JENIS_SNACK, inputHargaMakanan);
                     }
-
                 }
 
                 case 3 -> {
@@ -514,8 +512,40 @@ public class Main {
     }
 
     static void mainOwner() {
+        greetingUI(OWNER_NAME, ROLE_USER_OWNER);
+        logTimeUI("Login");
+        System.out.println(LINE_BORDER);
+        System.out.println("SELAMAT DATANG DI " + STORE_NAME.toUpperCase());
+        System.out.println(LINE_BORDER);
         while (STATE_LOGIN) {
+            System.out.println("Menu Owner " + STORE_NAME.toUpperCase());
+            System.out.println("1. Laporan Penjualan");
+            System.out.println("2. Menu Makanan Paling Laris");
+            System.out.println("8. Logout");
+            System.out.println("9. Exit Program");
+            System.out.print(UI_MASUKKAN_PILIHAN);
+            int pilihMenu = sc.nextInt();
+            switch (pilihMenu) {
+                case 1 -> {
 
+                }
+
+                case 2 -> {
+
+                }
+
+                case 8 -> {
+                    STATE_LOGIN = !STATE_LOGIN;
+                    logTimeUI("Logout");
+                    mainLogin();
+                }
+
+                case 9 -> {
+                    STATE_LOGIN = !STATE_LOGIN;
+                    exitUI();
+                }
+
+            }
         }
     }
 
