@@ -239,64 +239,91 @@ public class Main {
     }
 
     static void sortMenuMakanan(String[] menuMakanan, String[] jenisMakanan, int[] hargaMakanan, String stateMenu) {
-        for (int i = 0; i < SIZE_DEFAULT_ARRAY; i++) {
+        for (int i = 0; i < SIZE_DEFAULT_ARRAY - 1; i++) {
             for (int j = 0; j < SIZE_DEFAULT_ARRAY - 1; j++) {
 
                 if (stateMenu.equals(STATE_MENU_MAKANAN)) {
-                    if (menuMakanan[j].compareToIgnoreCase(menuMakanan[j + 1]) > 0) {
-                        String pickedMenuMakanan = menuMakanan[j];
-                        String pickedJenisMakanan = jenisMakanan[j];
-                        int pickedHargaMakanan = hargaMakanan[j];
+                    if (menuMakanan[i] != null) {
+                        if (menuMakanan[j] != null) {
+                            if (menuMakanan[j + 1] != null) {
+                                if (menuMakanan[j].compareToIgnoreCase(menuMakanan[j + 1]) > 0) {
+                                    String pickedMenuMakanan = menuMakanan[j];
+                                    String pickedJenisMakanan = jenisMakanan[j];
+                                    int pickedHargaMakanan = hargaMakanan[j];
 
-                        menuMakanan[j] = menuMakanan[j + 1];
-                        jenisMakanan[j] = jenisMakanan[j + 1];
-                        hargaMakanan[j] = hargaMakanan[j + 1];
+                                    menuMakanan[j] = menuMakanan[j + 1];
+                                    jenisMakanan[j] = jenisMakanan[j + 1];
+                                    hargaMakanan[j] = hargaMakanan[j + 1];
 
-                        menuMakanan[j + 1] = pickedMenuMakanan;
-                        jenisMakanan[j + 1] = pickedJenisMakanan;
-                        hargaMakanan[j + 1] = pickedHargaMakanan;
+                                    menuMakanan[j + 1] = pickedMenuMakanan;
+                                    jenisMakanan[j + 1] = pickedJenisMakanan;
+                                    hargaMakanan[j + 1] = pickedHargaMakanan;
+                                }
+                            }
+                        }
+
                     }
+
                 } else if (stateMenu.equals(STATE_MENU_HARGA_TERMURAH)) {
-                    if (hargaMakanan[j] > hargaMakanan[j + 1]) {
-                        String pickedMenuMakanan = menuMakanan[j];
-                        String pickedJenisMakanan = jenisMakanan[j];
-                        int pickedHargaMakanan = hargaMakanan[j];
+                    if (hargaMakanan[i] != 0) {
+                        if (hargaMakanan[j] != 0) {
+                            if (hargaMakanan[j + 1] != 0) {
+                                if (hargaMakanan[j] > hargaMakanan[j + 1]) {
+                                    String pickedMenuMakanan = menuMakanan[j];
+                                    String pickedJenisMakanan = jenisMakanan[j];
+                                    int pickedHargaMakanan = hargaMakanan[j];
 
-                        menuMakanan[j] = menuMakanan[j + 1];
-                        jenisMakanan[j] = jenisMakanan[j + 1];
-                        hargaMakanan[j] = hargaMakanan[j + 1];
+                                    menuMakanan[j] = menuMakanan[j + 1];
+                                    jenisMakanan[j] = jenisMakanan[j + 1];
+                                    hargaMakanan[j] = hargaMakanan[j + 1];
 
-                        menuMakanan[j + 1] = pickedMenuMakanan;
-                        jenisMakanan[j + 1] = pickedJenisMakanan;
-                        hargaMakanan[j + 1] = pickedHargaMakanan;
+                                    menuMakanan[j + 1] = pickedMenuMakanan;
+                                    jenisMakanan[j + 1] = pickedJenisMakanan;
+                                    hargaMakanan[j + 1] = pickedHargaMakanan;
+                                }
+                            }
+                        }
                     }
                 } else if (stateMenu.equals(STATE_MENU_HARGA_TERMAHAL)) {
-                    if (hargaMakanan[j] < hargaMakanan[j + 1]) {
-                        String pickedMenuMakanan = menuMakanan[j];
-                        String pickedJenisMakanan = jenisMakanan[j];
-                        int pickedHargaMakanan = hargaMakanan[j];
+                    if (hargaMakanan[i] != 0) {
+                        if (hargaMakanan[j] != 0) {
+                            if (hargaMakanan[j + 1] != 0) {
+                                if (hargaMakanan[j] < hargaMakanan[j + 1]) {
+                                    String pickedMenuMakanan = menuMakanan[j];
+                                    String pickedJenisMakanan = jenisMakanan[j];
+                                    int pickedHargaMakanan = hargaMakanan[j];
 
-                        menuMakanan[j] = menuMakanan[j + 1];
-                        jenisMakanan[j] = jenisMakanan[j + 1];
-                        hargaMakanan[j] = hargaMakanan[j + 1];
+                                    menuMakanan[j] = menuMakanan[j + 1];
+                                    jenisMakanan[j] = jenisMakanan[j + 1];
+                                    hargaMakanan[j] = hargaMakanan[j + 1];
 
-                        menuMakanan[j + 1] = pickedMenuMakanan;
-                        jenisMakanan[j + 1] = pickedJenisMakanan;
-                        hargaMakanan[j + 1] = pickedHargaMakanan;
+                                    menuMakanan[j + 1] = pickedMenuMakanan;
+                                    jenisMakanan[j + 1] = pickedJenisMakanan;
+                                    hargaMakanan[j + 1] = pickedHargaMakanan;
+                                }
+                            }
+                        }
                     }
                 } else if (stateMenu.equals(STATE_MENU_JENIS)) {
-                    if (jenisMakanan[j].compareToIgnoreCase(jenisMakanan[j + 1]) > 0) {
-                        String pickedMenuMakanan = menuMakanan[j];
-                        String pickedJenisMakanan = jenisMakanan[j];
-                        int pickedHargaMakanan = hargaMakanan[j];
+                    if (jenisMakanan[i] != null) {
+                        if (jenisMakanan[j] != null) {
+                            if (jenisMakanan[j + 1] != null) {
+                                if (jenisMakanan[j].compareToIgnoreCase(jenisMakanan[j + 1]) > 0) {
+                                    String pickedMenuMakanan = menuMakanan[j];
+                                    String pickedJenisMakanan = jenisMakanan[j];
+                                    int pickedHargaMakanan = hargaMakanan[j];
 
-                        menuMakanan[j] = menuMakanan[j + 1];
-                        jenisMakanan[j] = jenisMakanan[j + 1];
-                        hargaMakanan[j] = hargaMakanan[j + 1];
+                                    menuMakanan[j] = menuMakanan[j + 1];
+                                    jenisMakanan[j] = jenisMakanan[j + 1];
+                                    hargaMakanan[j] = hargaMakanan[j + 1];
 
-                        menuMakanan[j + 1] = pickedMenuMakanan;
-                        jenisMakanan[j + 1] = pickedJenisMakanan;
-                        hargaMakanan[j + 1] = pickedHargaMakanan;
+                                    menuMakanan[j + 1] = pickedMenuMakanan;
+                                    jenisMakanan[j + 1] = pickedJenisMakanan;
+                                    hargaMakanan[j + 1] = pickedHargaMakanan;
+                                }
+                            }
+
+                        }
                     }
                 }
             }
