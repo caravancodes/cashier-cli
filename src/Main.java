@@ -204,6 +204,15 @@ public class Main {
         updateDataArrayInt(hargaMakanan, index, valueHargaMakanan);
     }
 
+    static void nukeMenuMakanan() {
+        for (int i = 0; i <= INDEX_VALUED_ARRAY; i++) {
+            namaMakanan[i] = null;
+            jenisMakanan[i] = null;
+            hargaMakanan[i] = 0;
+        }
+        INDEX_VALUED_ARRAY = 0;
+    }
+
     static void readMenuMakanan(String[] menuMakanan, String[] jenisMakanan, int[] hargaMakanan) {
         System.out.println(LINE_BORDER);
         if (INDEX_VALUED_ARRAY == 0) {
@@ -427,7 +436,8 @@ public class Main {
             System.out.println("2. Menambah Daftar Makanan");
             System.out.println("3. Mengubah Daftar Makanan");
             System.out.println("4. Menghapus Daftar Makanan");
-            System.out.println("5. Menambah Otomatis dari Sistem");
+            System.out.println("5. Mereset Daftar Menu");
+            System.out.println("6. Menambah Otomatis dari Sistem");
             System.out.println("8. Logout");
             System.out.println("9. Exit Program");
             System.out.print(UI_MASUKKAN_PILIHAN);
@@ -490,6 +500,13 @@ public class Main {
                 }
 
                 case 5 -> {
+                    nukeMenuMakanan();
+                    System.out.println(LINE_BORDER);
+                    System.out.println("Daftar Menu Berhasil Di Reset");
+                    System.out.println(LINE_BORDER);
+                }
+
+                case 6 -> {
                     initAutoMenu(INDEX_VALUED_ARRAY);
                     System.out.println(LINE_BORDER);
                     System.out.println("Pengisian Menu Secara Automatis");
