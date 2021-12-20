@@ -62,6 +62,7 @@ public class Main {
     static Scanner sc = new Scanner(System.in);
     static int INDEX_VALUED_ARRAY_DATA_DAFTAR_MENU = 0;
     static int INDEX_VALUED_ARRAY_DATA_JUAL = 0;
+    static int INDEX_VALUED_ARRAY_DATA_JUAL_TEMP = 0;
     static int ID_PENJUALAN = 0;
     // -----------------------------------------------------------------------------------------------------------------
 
@@ -74,6 +75,7 @@ public class Main {
 
     // Data Penjualan
     static String[][] arrayJual = new String[SIZE_DEFAULT_ARRAY][7];
+    static String[][] arrayJualTemp = new String[SIZE_DEFAULT_ARRAY][7];
     // Index ke 0 -> Id Penjualan
     // Index ke 1 -> Tanggal Penjualan
     // Index ke 2 -> Nama Makanan
@@ -81,8 +83,6 @@ public class Main {
     // Index ke 4 -> Harga Makanan
     // Index ke 5 -> Jumlah Makanan
     // Index ke 6 -> SubTotal Harga Makanan
-
-    static int totalHarga = 0;
 
     // Main Program ----------------------------------------------------------------------------------------------------
     public static void main(String[] args) {
@@ -229,6 +229,19 @@ public class Main {
         INDEX_VALUED_ARRAY_DATA_DAFTAR_MENU = 0;
     }
 
+    static void nukeArrayTempJual() {
+        for (int i = 0; i <= INDEX_VALUED_ARRAY_DATA_JUAL_TEMP; i++) {
+            arrayJualTemp[i][0] = null;
+            arrayJualTemp[i][1] = null;
+            arrayJualTemp[i][2] = null;
+            arrayJualTemp[i][3] = null;
+            arrayJualTemp[i][4] = null;
+            arrayJualTemp[i][5] = null;
+            arrayJualTemp[i][6] = null;
+        }
+        INDEX_VALUED_ARRAY_DATA_JUAL_TEMP = 0;
+    }
+
     static void readMenuMakanan(String[] menuMakanan, String[] jenisMakanan, int[] hargaMakanan) {
         System.out.println(LINE_BORDER);
         if (INDEX_VALUED_ARRAY_DATA_DAFTAR_MENU == 0) {
@@ -345,7 +358,7 @@ public class Main {
     }
 
     static void searchMenu(String state) {
-        System.out.print("Cari \t\t\t\t\t\t: ");
+        System.out.print("Cari {String Makanan} \t\t: ");
         String inKeyword = sc.next();
 
         String[][] hasilCari = searchMenuMakanan(arrayDataNamaMakanan, arrayDataHargaMakanan, arrayDataJenisMakanan, state, inKeyword);
@@ -372,6 +385,16 @@ public class Main {
         int subTotal = hargaMakanan * jumlahMakanan;
         arrayJual[INDEX_VALUED_ARRAY_DATA_JUAL][6] = String.valueOf(subTotal);
         INDEX_VALUED_ARRAY_DATA_JUAL++;
+
+        arrayJualTemp[INDEX_VALUED_ARRAY_DATA_JUAL_TEMP][0] = String.valueOf(ID_PENJUALAN);
+        arrayJualTemp[INDEX_VALUED_ARRAY_DATA_JUAL_TEMP][1] = getDateTimeNow();
+        arrayJualTemp[INDEX_VALUED_ARRAY_DATA_JUAL_TEMP][2] = hasilCari[inBeli - 1][0];
+        arrayJualTemp[INDEX_VALUED_ARRAY_DATA_JUAL_TEMP][3] = hasilCari[inBeli - 1][2];
+        arrayJualTemp[INDEX_VALUED_ARRAY_DATA_JUAL_TEMP][4] = hasilCari[inBeli - 1][1];
+        arrayJualTemp[INDEX_VALUED_ARRAY_DATA_JUAL_TEMP][5] = String.valueOf(jumlahMakanan);
+        arrayJualTemp[INDEX_VALUED_ARRAY_DATA_JUAL_TEMP][6] = String.valueOf(subTotal);
+        INDEX_VALUED_ARRAY_DATA_JUAL_TEMP++;
+
     }
 
     static String[][] searchMenuMakanan(String[] menuMakanan, int[] hargaMakanan, String[] jenisMakanan, String stateMenu, String keyword) {
@@ -430,19 +453,50 @@ public class Main {
         System.out.println(LINE_BORDER);
     }
 
-    static void readPenjualanLaris() {
+    static void readPenjualanLaris(String[][] arr) {
+        String element = "";
+        int max_count = 1;
+        int count = 1;
+
         System.out.println(LINE_BORDER);
         if (INDEX_VALUED_ARRAY_DATA_JUAL == 0) {
             System.out.println("Tidak Ada Menu Paling Laris");
         } else {
-            System.out.println(">> Menu Makanan Paling Laris");
-            for (int i = 0; i < 5; i++) {
-                if (arrayJual[i][1] != null) {
-                    System.out.println((i + 1) + ". " + arrayJual[i][2]);
+
+            for (int i = 1; i < arr.length; i++) {
+                //count the successive elements as long as they are same
+
+                if (arr[i][2] != null) {
+                    if (arr[i][2].equals(arr[i - 1][2]))
+                        count++;
+
+                    if (!arr[i][2].equals(arr[i - 1][2]) || i == arr.length - 1) {
+                        //compare the count with max_count
+                        if (count > max_count) {
+
+                            //update if count is greater
+                            max_count = count;
+                            element = arr[i - 1][2];
+                        }
+                        //reset count to 1
+                        count = 1;
+                    }
                 }
+
             }
+
+            //output the most repeated element along with the count
+
+            System.out.println(">> Menu Makanan Paling Laris");
+            System.out.println(element + " dengan pembelian sebanyak : " + max_count);
+
         }
         System.out.println(LINE_BORDER);
+
+
+        //loop through the array elements
+
+
     }
 
     // Method Role Main Menu -------------------------------------------------------------------------------------------
@@ -495,6 +549,7 @@ public class Main {
 
                 case 6:
                     String pembelian = "";
+                    int totalHarga = 0;
                     do {
                         System.out.println("Cari Bedasarkan : ");
                         System.out.println("1. Nama Makanan");
@@ -515,9 +570,9 @@ public class Main {
                     System.out.println(LINE_BORDER);
                     System.out.println("No" + ".\t" + "Menu Makanan\t" + "\t" + "Harga" + "\t" + "Jumlah");
                     for (int i = 0; i < INDEX_VALUED_ARRAY_DATA_JUAL; i++) {
-                        if (arrayJual[i][2] != null) {
-                            System.out.println((i + 1) + ".\t" + arrayJual[i][2] + "\t" + arrayJual[i][4] + "\t" + arrayJual[i][5]);
-                            totalHarga = totalHarga + Integer.parseInt(arrayJual[i][6]);
+                        if (arrayJualTemp[i][2] != null) {
+                            System.out.println((i + 1) + ".\t" + arrayJualTemp[i][2] + "\t" + arrayJualTemp[i][4] + "\t" + arrayJualTemp[i][5]);
+                            totalHarga = totalHarga + Integer.parseInt(arrayJualTemp[i][6]);
                         }
                     }
                     System.out.println(LINE_BORDER);
@@ -540,6 +595,7 @@ public class Main {
                     System.out.println("Di " + STORE_NAME);
                     System.out.println("Semoga Anda Puas");
                     System.out.println(LINE_BORDER);
+                    nukeArrayTempJual();
                     break;
                 case 8:
                     STATE_LOGIN = !STATE_LOGIN;
@@ -690,7 +746,7 @@ public class Main {
                     readPenjualan();
                     break;
                 case 2:
-                    readPenjualanLaris();
+                    readPenjualanLaris(arrayJual);
                     break;
                 case 8:
                     STATE_LOGIN = !STATE_LOGIN;
