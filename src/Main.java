@@ -60,27 +60,29 @@ public class Main {
     static boolean STATE_LOGIN = false;
 
     static Scanner sc = new Scanner(System.in);
-    static int INDEX_VALUED_ARRAY = 0;
+    static int INDEX_VALUED_ARRAY_DATA_DAFTAR_MENU = 0;
+    static int INDEX_VALUED_ARRAY_DATA_JUAL = 0;
+    static int ID_PENJUALAN = 0;
     // -----------------------------------------------------------------------------------------------------------------
 
     // Initiasi Variable Global ----------------------------------------------------------------------------------------
 
-    // Data Data Menu Utama
-    static String[] namaMakanan = new String[SIZE_DEFAULT_ARRAY]; // Nama Makanan
-    static String[] jenisMakanan = new String[SIZE_DEFAULT_ARRAY]; // Jenis Makanan, Contoh : Makanan, Makanan, Makanan
-    static int[] hargaMakanan = new int[SIZE_DEFAULT_ARRAY];
+    // Data Daftar Menu Utama
+    static String[] arrayDataNamaMakanan = new String[SIZE_DEFAULT_ARRAY]; // Nama Makanan
+    static String[] arrayDataJenisMakanan = new String[SIZE_DEFAULT_ARRAY]; // Jenis Makanan, Contoh : Makanan, Makanan, Makanan
+    static int[] arrayDataHargaMakanan = new int[SIZE_DEFAULT_ARRAY];
 
-    static int[] beliHarga = new int[SIZE_DEFAULT_ARRAY];
-    static String[] beliJenis = new String[SIZE_DEFAULT_ARRAY];
-    static String[] beliMakanan = new String[SIZE_DEFAULT_ARRAY];
-    static int[] beliJumlahMakanan = new int[SIZE_DEFAULT_ARRAY];
+    // Data Penjualan
+    static String[][] arrayJual = new String[SIZE_DEFAULT_ARRAY][7];
+    // Index ke 0 -> Id Penjualan
+    // Index ke 1 -> Tanggal Penjualan
+    // Index ke 2 -> Nama Makanan
+    // Index ke 3 -> Jenis Makanan
+    // Index ke 4 -> Harga Makanan
+    // Index ke 5 -> Jumlah Makanan
+    // Index ke 6 -> SubTotal Harga Makanan
 
-    static int[] subTotal = new int[SIZE_DEFAULT_ARRAY];
-
-    static int jumlahBeli = 0;
     static int totalHarga = 0;
-    static int inputUangTunai = 0;
-    static int uangKembalian = 0;
 
     // Main Program ----------------------------------------------------------------------------------------------------
     public static void main(String[] args) {
@@ -112,7 +114,7 @@ public class Main {
     static void sortUI(String state) {
         System.out.println(LINE_BORDER);
         System.out.println("Berhasil Mengurutkan Menu Berdasarkan " + state);
-        readMenuMakanan(namaMakanan, jenisMakanan, hargaMakanan);
+        readMenuMakanan(arrayDataNamaMakanan, arrayDataJenisMakanan, arrayDataHargaMakanan);
     }
 
     static void logTimeUI(String status) {
@@ -163,10 +165,10 @@ public class Main {
     }
 
     static void addMenuMakanan(String valueNamaMakanan, String valueJenisMakanan, int valueHargaMakanan) {
-        addDataArrayString(namaMakanan, valueNamaMakanan);
-        addDataArrayString(jenisMakanan, valueJenisMakanan);
-        addDataArrayInt(hargaMakanan, valueHargaMakanan);
-        INDEX_VALUED_ARRAY++;
+        addDataArrayString(arrayDataNamaMakanan, valueNamaMakanan);
+        addDataArrayString(arrayDataJenisMakanan, valueJenisMakanan);
+        addDataArrayInt(arrayDataHargaMakanan, valueHargaMakanan);
+        INDEX_VALUED_ARRAY_DATA_DAFTAR_MENU++;
     }
 
     static void deleteMenuMakanan(String valueMakanan) {
@@ -174,9 +176,9 @@ public class Main {
         boolean stateCheck = false;
         int index = 0;
 
-        for (int i = 0; i < namaMakanan.length; i++) {
-            if (namaMakanan[i] != null) {
-                if (namaMakanan[i].equalsIgnoreCase(valueMakanan)) {
+        for (int i = 0; i < arrayDataNamaMakanan.length; i++) {
+            if (arrayDataNamaMakanan[i] != null) {
+                if (arrayDataNamaMakanan[i].equalsIgnoreCase(valueMakanan)) {
                     index = i;
                     stateCheck = true;
                     break;
@@ -186,36 +188,36 @@ public class Main {
 
         System.out.println(LINE_BORDER);
         if (stateCheck) {
-            deleteDataArrayString(namaMakanan, index);
-            deleteDataArrayString(jenisMakanan, index);
-            deleteDataArrayInt(hargaMakanan, index);
+            deleteDataArrayString(arrayDataNamaMakanan, index);
+            deleteDataArrayString(arrayDataJenisMakanan, index);
+            deleteDataArrayInt(arrayDataHargaMakanan, index);
             System.out.println("Menu " + valueMakanan + " Berhasil di hapus");
         } else {
             System.out.println("Menu Tidak ada ....");
         }
         System.out.println(LINE_BORDER);
-        INDEX_VALUED_ARRAY--;
+        INDEX_VALUED_ARRAY_DATA_DAFTAR_MENU--;
 
     }
 
     static void updateMenuMakanan(int index, String valueNamaMakanan, String valueJenisMakanan, int valueHargaMakanan) {
-        updateDataArrayString(namaMakanan, index, valueNamaMakanan);
-        updateDataArrayString(jenisMakanan, index, valueJenisMakanan);
-        updateDataArrayInt(hargaMakanan, index, valueHargaMakanan);
+        updateDataArrayString(arrayDataNamaMakanan, index, valueNamaMakanan);
+        updateDataArrayString(arrayDataJenisMakanan, index, valueJenisMakanan);
+        updateDataArrayInt(arrayDataHargaMakanan, index, valueHargaMakanan);
     }
 
     static void nukeMenuMakanan() {
-        for (int i = 0; i <= INDEX_VALUED_ARRAY; i++) {
-            namaMakanan[i] = null;
-            jenisMakanan[i] = null;
-            hargaMakanan[i] = 0;
+        for (int i = 0; i <= INDEX_VALUED_ARRAY_DATA_DAFTAR_MENU; i++) {
+            arrayDataNamaMakanan[i] = null;
+            arrayDataJenisMakanan[i] = null;
+            arrayDataHargaMakanan[i] = 0;
         }
-        INDEX_VALUED_ARRAY = 0;
+        INDEX_VALUED_ARRAY_DATA_DAFTAR_MENU = 0;
     }
 
     static void readMenuMakanan(String[] menuMakanan, String[] jenisMakanan, int[] hargaMakanan) {
         System.out.println(LINE_BORDER);
-        if (INDEX_VALUED_ARRAY == 0) {
+        if (INDEX_VALUED_ARRAY_DATA_DAFTAR_MENU == 0) {
             System.out.println("Daftar Menu Kosong");
         } else {
             System.out.println(">> Daftar Menu " + STORE_NAME);
@@ -301,27 +303,86 @@ public class Main {
         }
     }
 
+    static void searchMenu(String state) {
+        System.out.print("Cari \t\t\t\t\t\t: ");
+        String inKeyword = sc.next();
+
+        String[][] hasilCari = searchMenuMakanan(arrayDataNamaMakanan, arrayDataHargaMakanan, arrayDataJenisMakanan, state, inKeyword);
+
+        System.out.println(LINE_BORDER);
+        System.out.println(">> Hasil Pencarian");
+        readMenuMakananSearched(hasilCari);
+        System.out.println(LINE_BORDER);
+
+        System.out.print("Masukkan Menu\t\t\t\t: ");
+        int inBeli = sc.nextInt();
+        System.out.print("Masukkan Jumlah Pesanan\t\t: ");
+        int jumlahMakanan = sc.nextInt();
+
+        arrayJual[INDEX_VALUED_ARRAY_DATA_JUAL][0] = String.valueOf(ID_PENJUALAN);
+        arrayJual[INDEX_VALUED_ARRAY_DATA_JUAL][1] = getDateTimeNow();
+        arrayJual[INDEX_VALUED_ARRAY_DATA_JUAL][2] = hasilCari[inBeli - 1][0];
+        arrayJual[INDEX_VALUED_ARRAY_DATA_JUAL][3] = hasilCari[inBeli - 1][2];
+        arrayJual[INDEX_VALUED_ARRAY_DATA_JUAL][4] = hasilCari[inBeli - 1][1];
+
+        arrayJual[INDEX_VALUED_ARRAY_DATA_JUAL][5] = String.valueOf(jumlahMakanan);
+
+        int hargaMakanan = Integer.parseInt(arrayJual[INDEX_VALUED_ARRAY_DATA_JUAL][4]);
+        int subTotal = hargaMakanan * jumlahMakanan;
+        arrayJual[INDEX_VALUED_ARRAY_DATA_JUAL][6] = String.valueOf(subTotal);
+        INDEX_VALUED_ARRAY_DATA_JUAL++;
+    }
+
     static String[][] searchMenuMakanan(String[] menuMakanan, int[] hargaMakanan, String[] jenisMakanan, String stateMenu, String keyword) {
         String[][] searchedArray = new String[SIZE_DEFAULT_ARRAY][3];
         int idx = 0;
         for (int i = 0; i < SIZE_DEFAULT_ARRAY; i++) {
             if (stateMenu.equals(STATE_MENU_MAKANAN)) {
-                if (menuMakanan[i].contains(keyword)) {
-                    searchedArray[idx][0] = menuMakanan[i];
-                    searchedArray[idx][1] = String.valueOf(hargaMakanan[i]);
-                    searchedArray[idx][2] = jenisMakanan[i];
-                    idx++;
+                if (menuMakanan[i] != null) {
+                    if (menuMakanan[i].contains(keyword)) {
+                        searchedArray[idx][0] = menuMakanan[i];
+                        searchedArray[idx][1] = String.valueOf(hargaMakanan[i]);
+                        searchedArray[idx][2] = jenisMakanan[i];
+                        idx++;
+                    }
                 }
+
             } else if (stateMenu.equals(STATE_MENU_JENIS)) {
-                if (menuMakanan[i].contains(keyword)) {
-                    searchedArray[idx][0] = menuMakanan[i];
-                    searchedArray[idx][1] = String.valueOf(hargaMakanan[i]);
-                    searchedArray[idx][2] = jenisMakanan[i];
-                    idx++;
+                if (jenisMakanan[i] != null) {
+                    if (jenisMakanan[i].contains(keyword)) {
+                        searchedArray[idx][0] = menuMakanan[i];
+                        searchedArray[idx][1] = String.valueOf(hargaMakanan[i]);
+                        searchedArray[idx][2] = jenisMakanan[i];
+                        idx++;
+                    }
                 }
             }
         }
         return searchedArray;
+    }
+
+    static void readPenjualan() {
+        System.out.println(LINE_BORDER);
+        if (INDEX_VALUED_ARRAY_DATA_JUAL == 0) {
+            System.out.println("Tidak Ada Penjualan Saat Ini");
+        } else {
+            System.out.println(">> Laporan Penjualan");
+            for (int i = 0; i < SIZE_DEFAULT_ARRAY; i++) {
+
+                // Index ke 0 -> Id Penjualan
+                // Index ke 1 -> Tanggal Penjualan
+                // Index ke 2 -> Nama Makanan
+                // Index ke 3 -> Jenis Makanan
+                // Index ke 4 -> Harga Makanan
+                // Index ke 5 -> Jumlah Makanan
+                // Index ke 6 -> SubTotal Harga Makanan
+
+                if (arrayJual[i][1] != null) {
+                    System.out.println((i + 1) + ".\t [" + arrayJual[i][0] + "] \t [" + arrayJual[i][1] + "] \t - " + arrayJual[i][2]);
+                }
+            }
+        }
+        System.out.println(LINE_BORDER);
     }
 
     // Method Role Main Menu -------------------------------------------------------------------------------------------
@@ -340,8 +401,7 @@ public class Main {
             System.out.println("3. Urutkan Berdasarkan Jenis Makanan");
             System.out.println("4. Urutkan Berdasarkan Harga Makanan Termurah");
             System.out.println("5. Urutkan Berdasarkan Harga Makanan Termahal");
-            System.out.println("6. Cari Makanan");
-            System.out.println("7. Bayar");
+            System.out.println("6. Jual Makanan");
             System.out.println("8. Logout");
             System.out.println("9. Exit Program");
             System.out.print(UI_MASUKKAN_PILIHAN);
@@ -350,66 +410,71 @@ public class Main {
 
             switch (pilihMenu) {
                 case 1 -> {
-                    readMenuMakanan(namaMakanan, jenisMakanan, hargaMakanan);
+                    readMenuMakanan(arrayDataNamaMakanan, arrayDataJenisMakanan, arrayDataHargaMakanan);
                 }
                 case 2 -> {
-                    sortMenuMakanan(namaMakanan, jenisMakanan, hargaMakanan, STATE_MENU_MAKANAN);
+                    sortMenuMakanan(arrayDataNamaMakanan, arrayDataJenisMakanan, arrayDataHargaMakanan, STATE_MENU_MAKANAN);
                     sortUI("Nama Makanan");
                 }
                 case 3 -> {
-                    sortMenuMakanan(namaMakanan, jenisMakanan, hargaMakanan, STATE_MENU_JENIS);
+                    sortMenuMakanan(arrayDataNamaMakanan, arrayDataJenisMakanan, arrayDataHargaMakanan, STATE_MENU_JENIS);
                     sortUI("Jenis Makanan");
                 }
                 case 4 -> {
-                    sortMenuMakanan(namaMakanan, jenisMakanan, hargaMakanan, STATE_MENU_HARGA_TERMURAH);
+                    sortMenuMakanan(arrayDataNamaMakanan, arrayDataJenisMakanan, arrayDataHargaMakanan, STATE_MENU_HARGA_TERMURAH);
                     sortUI("Harga Termurah");
                 }
                 case 5 -> {
-                    sortMenuMakanan(namaMakanan, jenisMakanan, hargaMakanan, STATE_MENU_HARGA_TERMAHAL);
+                    sortMenuMakanan(arrayDataNamaMakanan, arrayDataJenisMakanan, arrayDataHargaMakanan, STATE_MENU_HARGA_TERMAHAL);
                     sortUI("Harga Termahal");
                 }
                 case 6 -> {
-                    System.out.println("Cari Bedasarkan : ");
-                    System.out.println("1. Nama Makanan");
-                    System.out.println("2. Jenis Makanan");
-                    System.out.print(UI_MASUKKAN_PILIHAN);
-                    int inSortPilihan = sc.nextInt();
-                    if (inSortPilihan == 1) {
-                        kasirSearchedMenu(STATE_MENU_MAKANAN);
-                    } else if (inSortPilihan == 2) {
-                        kasirSearchedMenu(STATE_MENU_JENIS);
-                    }
-                }
-                case 7 -> {
-                    System.out.println("---------------------------------------------");
+                    String pembelian = "";
+                    do {
+                        System.out.println("Cari Bedasarkan : ");
+                        System.out.println("1. Nama Makanan");
+                        System.out.println("2. Jenis Makanan");
+                        System.out.print(UI_MASUKKAN_PILIHAN);
+                        int inSortPilihan = sc.nextInt();
+                        if (inSortPilihan == 1) {
+                            searchMenu(STATE_MENU_MAKANAN);
+                        } else if (inSortPilihan == 2) {
+                            searchMenu(STATE_MENU_JENIS);
+                        }
+                        System.out.print("Lanjut Pembelian [y/n]\t\t: ");
+                        pembelian = sc.next();
+                    } while (pembelian.equalsIgnoreCase("y"));
+                    ID_PENJUALAN++;
+                    System.out.println(LINE_BORDER);
                     System.out.println("DAFTAR BELANJAAN DI " + STORE_NAME.toUpperCase());
-                    System.out.println("---------------------------------------------");
+                    System.out.println(LINE_BORDER);
                     System.out.println("No" + ".\t" + "Menu Makanan\t" + "\t" + "Harga" + "\t" + "Jumlah");
-                    for (int i = 0; i < jumlahBeli; i++) {
-                        if (beliMakanan[i] != null) {
-                            System.out.println((i + 1) + ".\t" + beliMakanan[i] + "\t" + beliHarga[i] + "\t" + beliJumlahMakanan[i]);
-                            totalHarga = totalHarga + subTotal[i];
+                    for (int i = 0; i < INDEX_VALUED_ARRAY_DATA_JUAL; i++) {
+                        if (arrayJual[i][2] != null) {
+                            System.out.println((i + 1) + ".\t" + arrayJual[i][2] + "\t" + arrayJual[i][4] + "\t" + arrayJual[i][5]);
+                            totalHarga = totalHarga + Integer.parseInt(arrayJual[i][6]);
                         }
                     }
-                    System.out.println("---------------------------------------------");
+                    System.out.println(LINE_BORDER);
                     System.out.println("Grand Total\t\t\t\t\t: Rp " + totalHarga);
-                    System.out.println("---------------------------------------------");
+                    System.out.println(LINE_BORDER);
                     System.out.print("Tunai\t\t\t\t\t\t: Rp ");
                     Scanner sc = new Scanner(System.in);
-                    inputUangTunai = sc.nextInt();
+                    int inputUangTunai = sc.nextInt();
                     if (inputUangTunai == totalHarga) {
                         System.out.println("\t\t\t\t\tUANG ANDA PAS");
                     } else if (inputUangTunai < totalHarga) {
                         System.out.println("\t\t\t\t\tUANG ANDA KURANG");
                         System.out.println("Uang Kurang\t\t\t\t\t: Rp " + (totalHarga - inputUangTunai));
                     } else {
-                        uangKembalian = inputUangTunai - totalHarga;
+                        int uangKembalian = inputUangTunai - totalHarga;
                         System.out.println("Kembali\t\t\t\t\t\t: Rp " + uangKembalian);
                     }
                     System.out.println(LINE_BORDER);
                     System.out.println("Terima Kasih Sudah Berbelanja");
                     System.out.println("Di " + STORE_NAME);
-                    System.out.println("Semoga Anda Puas ");
+                    System.out.println("Semoga Anda Puas");
+                    System.out.println(LINE_BORDER);
                 }
                 case 8 -> {
                     STATE_LOGIN = !STATE_LOGIN;
@@ -444,7 +509,7 @@ public class Main {
             int pilihMenu = sc.nextInt();
             switch (pilihMenu) {
                 case 1 -> {
-                    readMenuMakanan(namaMakanan, jenisMakanan, hargaMakanan);
+                    readMenuMakanan(arrayDataNamaMakanan, arrayDataJenisMakanan, arrayDataHargaMakanan);
                 }
                 case 2 -> {
                     System.out.println("Masukkan Data Daftar Makanan");
@@ -475,7 +540,7 @@ public class Main {
                     System.out.println("1. Makanan");
                     System.out.println("2. Minuman");
                     System.out.println("3. Snack");
-                    readMenuMakanan(namaMakanan, jenisMakanan, hargaMakanan);
+                    readMenuMakanan(arrayDataNamaMakanan, arrayDataJenisMakanan, arrayDataHargaMakanan);
                     System.out.print("Index\t: ");
                     int inputIndexMakanan = sc.nextInt();
                     System.out.print("Nama \t: ");
@@ -507,7 +572,7 @@ public class Main {
                 }
 
                 case 6 -> {
-                    initAutoMenu(INDEX_VALUED_ARRAY);
+                    initAutoMenu(INDEX_VALUED_ARRAY_DATA_DAFTAR_MENU);
                     System.out.println(LINE_BORDER);
                     System.out.println("Pengisian Menu Secara Automatis");
                     System.out.println(LINE_BORDER);
@@ -544,11 +609,13 @@ public class Main {
             int pilihMenu = sc.nextInt();
             switch (pilihMenu) {
                 case 1 -> {
-
+                    readPenjualan();
                 }
 
                 case 2 -> {
-
+                    System.out.println(LINE_BORDER);
+                    System.out.println("Menu Makanan Paling Laris");
+                    System.out.println(LINE_BORDER);
                 }
 
                 case 8 -> {
@@ -621,111 +688,87 @@ public class Main {
     }
 
     static void initAutoMenu(int startIndex) {
-        namaMakanan[startIndex] = "MartabakSapi";
-        hargaMakanan[startIndex] = 31000;
-        jenisMakanan[startIndex] = ITEM_JENIS_MAKANAN;
+        arrayDataNamaMakanan[startIndex] = "MartabakSapi";
+        arrayDataHargaMakanan[startIndex] = 31000;
+        arrayDataJenisMakanan[startIndex] = ITEM_JENIS_MAKANAN;
 
-        namaMakanan[startIndex + 1] = "MartabakSapiSpesial";
-        hargaMakanan[startIndex + 1] = 39000;
-        jenisMakanan[startIndex + 1] = ITEM_JENIS_MAKANAN;
+        arrayDataNamaMakanan[startIndex + 1] = "MartabakSapiSpesial";
+        arrayDataHargaMakanan[startIndex + 1] = 39000;
+        arrayDataJenisMakanan[startIndex + 1] = ITEM_JENIS_MAKANAN;
 
-        namaMakanan[startIndex + 2] = "MartabakAyam\t";
-        hargaMakanan[startIndex + 2] = 29000;
-        jenisMakanan[startIndex + 2] = ITEM_JENIS_MAKANAN;
+        arrayDataNamaMakanan[startIndex + 2] = "MartabakAyam\t";
+        arrayDataHargaMakanan[startIndex + 2] = 29000;
+        arrayDataJenisMakanan[startIndex + 2] = ITEM_JENIS_MAKANAN;
 
-        namaMakanan[startIndex + 3] = "MartabakAyamSpesial";
-        hargaMakanan[startIndex + 3] = 33000;
-        jenisMakanan[startIndex + 3] = ITEM_JENIS_MAKANAN;
+        arrayDataNamaMakanan[startIndex + 3] = "MartabakAyamSpesial";
+        arrayDataHargaMakanan[startIndex + 3] = 33000;
+        arrayDataJenisMakanan[startIndex + 3] = ITEM_JENIS_MAKANAN;
 
-        namaMakanan[startIndex + 4] = "TerangBulanCoklat";
-        hargaMakanan[startIndex + 4] = 23000;
-        jenisMakanan[startIndex + 4] = ITEM_JENIS_MAKANAN;
+        arrayDataNamaMakanan[startIndex + 4] = "TerangBulanCoklat";
+        arrayDataHargaMakanan[startIndex + 4] = 23000;
+        arrayDataJenisMakanan[startIndex + 4] = ITEM_JENIS_MAKANAN;
 
-        namaMakanan[startIndex + 5] = "TerangBulanCoklatKeju";
-        hargaMakanan[startIndex + 5] = 27000;
-        jenisMakanan[startIndex + 5] = ITEM_JENIS_MAKANAN;
+        arrayDataNamaMakanan[startIndex + 5] = "TerangBulanCoklatKeju";
+        arrayDataHargaMakanan[startIndex + 5] = 27000;
+        arrayDataJenisMakanan[startIndex + 5] = ITEM_JENIS_MAKANAN;
 
-        namaMakanan[startIndex + 6] = "TerangBulanCoklatKacang";
-        hargaMakanan[startIndex + 6] = 25000;
-        jenisMakanan[startIndex + 6] = ITEM_JENIS_MAKANAN;
+        arrayDataNamaMakanan[startIndex + 6] = "TerangBulanCoklatKacang";
+        arrayDataHargaMakanan[startIndex + 6] = 25000;
+        arrayDataJenisMakanan[startIndex + 6] = ITEM_JENIS_MAKANAN;
 
-        namaMakanan[startIndex + 7] = "TerangBulanSpecial";
-        hargaMakanan[startIndex + 7] = 35000;
-        jenisMakanan[startIndex + 7] = ITEM_JENIS_MAKANAN;
+        arrayDataNamaMakanan[startIndex + 7] = "TerangBulanSpecial";
+        arrayDataHargaMakanan[startIndex + 7] = 35000;
+        arrayDataJenisMakanan[startIndex + 7] = ITEM_JENIS_MAKANAN;
 
-        namaMakanan[startIndex + 8] = "TerangBulanMatcha";
-        hargaMakanan[startIndex + 8] = 37000;
-        jenisMakanan[startIndex + 8] = ITEM_JENIS_MAKANAN;
+        arrayDataNamaMakanan[startIndex + 8] = "TerangBulanMatcha";
+        arrayDataHargaMakanan[startIndex + 8] = 37000;
+        arrayDataJenisMakanan[startIndex + 8] = ITEM_JENIS_MAKANAN;
 
-        namaMakanan[startIndex + 9] = "TerangBulanMini";
-        hargaMakanan[startIndex + 9] = 21000;
-        jenisMakanan[startIndex + 9] = ITEM_JENIS_MAKANAN;
+        arrayDataNamaMakanan[startIndex + 9] = "TerangBulanMini";
+        arrayDataHargaMakanan[startIndex + 9] = 21000;
+        arrayDataJenisMakanan[startIndex + 9] = ITEM_JENIS_MAKANAN;
 
-        namaMakanan[startIndex + 10] = "CoffeLatte";
-        hargaMakanan[startIndex + 10] = 9000;
-        jenisMakanan[startIndex + 10] = ITEM_JENIS_MINUMAN;
+        arrayDataNamaMakanan[startIndex + 10] = "CoffeLatte";
+        arrayDataHargaMakanan[startIndex + 10] = 9000;
+        arrayDataJenisMakanan[startIndex + 10] = ITEM_JENIS_MINUMAN;
 
-        namaMakanan[startIndex + 11] = "CoffeChoco";
-        hargaMakanan[startIndex + 11] = 12000;
-        jenisMakanan[startIndex + 11] = ITEM_JENIS_MINUMAN;
+        arrayDataNamaMakanan[startIndex + 11] = "CoffeChoco";
+        arrayDataHargaMakanan[startIndex + 11] = 12000;
+        arrayDataJenisMakanan[startIndex + 11] = ITEM_JENIS_MINUMAN;
 
-        namaMakanan[startIndex + 12] = "CoffeVanilla";
-        hargaMakanan[startIndex + 12] = 11000;
-        jenisMakanan[startIndex + 12] = ITEM_JENIS_MINUMAN;
+        arrayDataNamaMakanan[startIndex + 12] = "CoffeVanilla";
+        arrayDataHargaMakanan[startIndex + 12] = 11000;
+        arrayDataJenisMakanan[startIndex + 12] = ITEM_JENIS_MINUMAN;
 
-        namaMakanan[startIndex + 13] = "RedVelvet";
-        hargaMakanan[startIndex + 13] = 17000;
-        jenisMakanan[startIndex + 13] = ITEM_JENIS_MINUMAN;
+        arrayDataNamaMakanan[startIndex + 13] = "RedVelvet";
+        arrayDataHargaMakanan[startIndex + 13] = 17000;
+        arrayDataJenisMakanan[startIndex + 13] = ITEM_JENIS_MINUMAN;
 
-        namaMakanan[startIndex + 14] = "GreenTea";
-        hargaMakanan[startIndex + 14] = 15000;
-        jenisMakanan[startIndex + 14] = ITEM_JENIS_MINUMAN;
+        arrayDataNamaMakanan[startIndex + 14] = "GreenTea";
+        arrayDataHargaMakanan[startIndex + 14] = 15000;
+        arrayDataJenisMakanan[startIndex + 14] = ITEM_JENIS_MINUMAN;
 
-        namaMakanan[startIndex + 15] = "FrenchFries";
-        hargaMakanan[startIndex + 15] = 9000;
-        jenisMakanan[startIndex + 15] = ITEM_JENIS_SNACK;
+        arrayDataNamaMakanan[startIndex + 15] = "FrenchFries";
+        arrayDataHargaMakanan[startIndex + 15] = 9000;
+        arrayDataJenisMakanan[startIndex + 15] = ITEM_JENIS_SNACK;
 
-        namaMakanan[startIndex + 16] = "ToastCoklatKeju";
-        hargaMakanan[startIndex + 16] = 15000;
-        jenisMakanan[startIndex + 16] = ITEM_JENIS_SNACK;
+        arrayDataNamaMakanan[startIndex + 16] = "ToastCoklatKeju";
+        arrayDataHargaMakanan[startIndex + 16] = 15000;
+        arrayDataJenisMakanan[startIndex + 16] = ITEM_JENIS_SNACK;
 
-        namaMakanan[startIndex + 17] = "CroffleSyrup";
-        hargaMakanan[startIndex + 17] = 13000;
-        jenisMakanan[startIndex + 17] = ITEM_JENIS_SNACK;
+        arrayDataNamaMakanan[startIndex + 17] = "CroffleSyrup";
+        arrayDataHargaMakanan[startIndex + 17] = 13000;
+        arrayDataJenisMakanan[startIndex + 17] = ITEM_JENIS_SNACK;
 
-        namaMakanan[startIndex + 18] = "GelatoDurian";
-        hargaMakanan[startIndex + 18] = 11000;
-        jenisMakanan[startIndex + 18] = ITEM_JENIS_SNACK;
+        arrayDataNamaMakanan[startIndex + 18] = "GelatoDurian";
+        arrayDataHargaMakanan[startIndex + 18] = 11000;
+        arrayDataJenisMakanan[startIndex + 18] = ITEM_JENIS_SNACK;
 
-        namaMakanan[startIndex + 19] = "CheeseCake";
-        hargaMakanan[startIndex + 19] = 21000;
-        jenisMakanan[startIndex + 19] = ITEM_JENIS_SNACK;
+        arrayDataNamaMakanan[startIndex + 19] = "CheeseCake";
+        arrayDataHargaMakanan[startIndex + 19] = 21000;
+        arrayDataJenisMakanan[startIndex + 19] = ITEM_JENIS_SNACK;
 
-        INDEX_VALUED_ARRAY = INDEX_VALUED_ARRAY + 19;
-    }
-
-    static void kasirSearchedMenu(String state) {
-        System.out.print("Cari \t\t\t\t\t\t: ");
-        String inKeyword = sc.next();
-
-        String[][] hasilCari = searchMenuMakanan(namaMakanan, hargaMakanan, jenisMakanan, state, inKeyword);
-
-        System.out.println(LINE_BORDER);
-        System.out.println(">> Hasil Pencarian");
-        readMenuMakananSearched(hasilCari);
-        System.out.println(LINE_BORDER);
-
-        System.out.print("Masukkan Menu\t\t\t\t: ");
-        int inBeli = sc.nextInt();
-        System.out.print("Masukkan Jumlah Pesanan\t\t: ");
-        beliJumlahMakanan[jumlahBeli] = sc.nextInt();
-
-        beliMakanan[jumlahBeli] = hasilCari[inBeli - 1][0];
-        beliHarga[jumlahBeli] = Integer.parseInt(hasilCari[inBeli - 1][1]);
-        beliJenis[jumlahBeli] = hasilCari[inBeli - 1][2];
-
-        subTotal[jumlahBeli] = beliJumlahMakanan[jumlahBeli] * beliHarga[jumlahBeli];
-        jumlahBeli++;
+        INDEX_VALUED_ARRAY_DATA_DAFTAR_MENU = INDEX_VALUED_ARRAY_DATA_DAFTAR_MENU + 19;
     }
 
 }
