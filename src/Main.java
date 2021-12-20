@@ -124,6 +124,20 @@ public class Main {
 
     // Method Operator Array -------------------------------------------------------------------------------------------
 
+    // Method Dari Laporan
+    static int mCari(String[] array, String kata) {
+        int index = 0;
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] != null) {
+                if (array[i].equalsIgnoreCase(kata)) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+        return index;
+    }
+
     static void addDataArrayString(String[] array, String value) {
         int index = 0;
         for (int i = 0; i < array.length; i++) {
