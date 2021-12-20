@@ -455,26 +455,31 @@ public class Main {
             int pilihMenu = sc.nextInt();
 
             switch (pilihMenu) {
-                case 1 -> {
+                case 1:
                     readMenuMakanan(arrayDataNamaMakanan, arrayDataJenisMakanan, arrayDataHargaMakanan);
-                }
-                case 2 -> {
+                    break;
+
+                case 2:
                     sortMenuMakanan(arrayDataNamaMakanan, arrayDataJenisMakanan, arrayDataHargaMakanan, STATE_MENU_MAKANAN);
                     sortUI("Nama Makanan");
-                }
-                case 3 -> {
+                    break;
+
+                case 3:
                     sortMenuMakanan(arrayDataNamaMakanan, arrayDataJenisMakanan, arrayDataHargaMakanan, STATE_MENU_JENIS);
                     sortUI("Jenis Makanan");
-                }
-                case 4 -> {
+                    break;
+
+                case 4:
                     sortMenuMakanan(arrayDataNamaMakanan, arrayDataJenisMakanan, arrayDataHargaMakanan, STATE_MENU_HARGA_TERMURAH);
                     sortUI("Harga Termurah");
-                }
-                case 5 -> {
+                    break;
+
+                case 5:
                     sortMenuMakanan(arrayDataNamaMakanan, arrayDataJenisMakanan, arrayDataHargaMakanan, STATE_MENU_HARGA_TERMAHAL);
                     sortUI("Harga Termahal");
-                }
-                case 6 -> {
+                    break;
+
+                case 6:
                     String pembelian = "";
                     do {
                         System.out.println("Cari Bedasarkan : ");
@@ -521,16 +526,18 @@ public class Main {
                     System.out.println("Di " + STORE_NAME);
                     System.out.println("Semoga Anda Puas");
                     System.out.println(LINE_BORDER);
-                }
-                case 8 -> {
+                    break;
+                case 8:
                     STATE_LOGIN = !STATE_LOGIN;
                     logTimeUI("Logout");
                     mainLogin();
-                }
-                case 9 -> {
+                    break;
+
+                case 9:
                     STATE_LOGIN = !STATE_LOGIN;
                     exitUI();
-                }
+                    break;
+
             }
         }
     }
@@ -554,10 +561,11 @@ public class Main {
             System.out.print(UI_MASUKKAN_PILIHAN);
             int pilihMenu = sc.nextInt();
             switch (pilihMenu) {
-                case 1 -> {
+                case 1:
                     readMenuMakanan(arrayDataNamaMakanan, arrayDataJenisMakanan, arrayDataHargaMakanan);
-                }
-                case 2 -> {
+                    break;
+
+                case 2:
                     System.out.println("Masukkan Data Daftar Makanan");
                     System.out.println(LINE_BORDER);
                     System.out.println("Pilihan Jenis Makanan");
@@ -573,13 +581,22 @@ public class Main {
                     int inputHargaMakanan = sc.nextInt();
 
                     switch (inputJenisMakanan) {
-                        case 1 -> addMenuMakanan(inputNamaMakanan, ITEM_JENIS_MAKANAN, inputHargaMakanan);
-                        case 2 -> addMenuMakanan(inputNamaMakanan, ITEM_JENIS_MINUMAN, inputHargaMakanan);
-                        case 3 -> addMenuMakanan(inputNamaMakanan, ITEM_JENIS_SNACK, inputHargaMakanan);
-                    }
-                }
+                        case 1:
+                            addMenuMakanan(inputNamaMakanan, ITEM_JENIS_MAKANAN, inputHargaMakanan);
+                            break;
 
-                case 3 -> {
+                        case 2:
+                            addMenuMakanan(inputNamaMakanan, ITEM_JENIS_MINUMAN, inputHargaMakanan);
+                            break;
+
+                        case 3:
+                            addMenuMakanan(inputNamaMakanan, ITEM_JENIS_SNACK, inputHargaMakanan);
+                            break;
+                    }
+
+                    break;
+
+                case 3:
                     System.out.println("Masukkan Data Daftar Makanan");
                     System.out.println(LINE_BORDER);
                     System.out.println("Pilihan Jenis Makanan");
@@ -590,50 +607,51 @@ public class Main {
                     System.out.print("Index\t: ");
                     int inputIndexMakanan = sc.nextInt();
                     System.out.print("Nama \t: ");
-                    String inputNamaMakanan = sc.next();
+                    String inputNamaMakanan2 = sc.next();
                     System.out.print("Jenis\t: ");
-                    int inputJenisMakanan = sc.nextInt();
+                    int inputJenisMakanan2 = sc.nextInt();
                     System.out.print("Harga\t: ");
-                    int inputHargaMakanan = sc.nextInt();
+                    int inputHargaMakanan2 = sc.nextInt();
                     int indexMakanan = inputIndexMakanan - 1;
-                    switch (inputJenisMakanan) {
-                        case 1 -> updateMenuMakanan(indexMakanan, inputNamaMakanan, ITEM_JENIS_MAKANAN, inputHargaMakanan);
-                        case 2 -> updateMenuMakanan(indexMakanan, inputNamaMakanan, ITEM_JENIS_MINUMAN, inputHargaMakanan);
-                        case 3 -> updateMenuMakanan(indexMakanan, inputNamaMakanan, ITEM_JENIS_SNACK, inputHargaMakanan);
+                    switch (inputJenisMakanan2) {
+                        case 1:
+                            updateMenuMakanan(indexMakanan, inputNamaMakanan2, ITEM_JENIS_MAKANAN, inputHargaMakanan2);
+                            break;
+                        case 2:
+                            updateMenuMakanan(indexMakanan, inputNamaMakanan2, ITEM_JENIS_MINUMAN, inputHargaMakanan2);
+                            break;
+                        case 3:
+                            updateMenuMakanan(indexMakanan, inputNamaMakanan2, ITEM_JENIS_SNACK, inputHargaMakanan2);
+                            break;
                     }
-                }
-
-                case 4 -> {
+                    break;
+                case 4:
                     System.out.println(LINE_BORDER);
                     System.out.print("Menu yang mau di hapus : ");
                     String namaMakanan = sc.next();
                     deleteMenuMakanan(namaMakanan);
-                }
-
-                case 5 -> {
+                    break;
+                case 5:
                     nukeMenuMakanan();
                     System.out.println(LINE_BORDER);
                     System.out.println("Daftar Menu Berhasil Di Reset");
                     System.out.println(LINE_BORDER);
-                }
-
-                case 6 -> {
+                    break;
+                case 6:
                     initAutoMenu(INDEX_VALUED_ARRAY_DATA_DAFTAR_MENU);
                     System.out.println(LINE_BORDER);
                     System.out.println("Pengisian Menu Secara Automatis");
                     System.out.println(LINE_BORDER);
-                }
-
-                case 8 -> {
+                    break;
+                case 8:
                     STATE_LOGIN = !STATE_LOGIN;
                     logTimeUI("Logout");
                     mainLogin();
-                }
-                case 9 -> {
+                    break;
+                case 9:
                     STATE_LOGIN = !STATE_LOGIN;
                     exitUI();
-                }
-
+                    break;
             }
 
         }
@@ -654,33 +672,27 @@ public class Main {
             System.out.print(UI_MASUKKAN_PILIHAN);
             int pilihMenu = sc.nextInt();
             switch (pilihMenu) {
-                case 1 -> {
+                case 1:
                     readPenjualan();
-                }
-
-                case 2 -> {
+                    break;
+                case 2:
                     readPenjualanLaris();
-                }
-
-                case 8 -> {
+                    break;
+                case 8:
                     STATE_LOGIN = !STATE_LOGIN;
                     logTimeUI("Logout");
                     mainLogin();
-                }
-
-                case 9 -> {
+                    break;
+                case 9:
                     STATE_LOGIN = !STATE_LOGIN;
                     exitUI();
-                }
-
+                    break;
             }
         }
     }
 
     static void mainLogin() {
-
         int loopLogin = 0;
-
         do {
             loginUI();
             Scanner inputLogin = new Scanner(System.in);
