@@ -519,49 +519,64 @@ public class Main {
 
     // Method ini berfungsi untuk menampilkan makanan paling sering di beli
     static void readPenjualanLaris(String[][] arr) {
-        String element = "";
-        int max_count = 1;
-        int count = 1;
 
         System.out.println(LINE_BORDER);
         if (INDEX_VALUED_ARRAY_DATA_JUAL == 0) {
             System.out.println("Tidak Ada Menu Paling Laris");
         } else {
+            for (int i = 0; i < SIZE_DEFAULT_ARRAY - 1; i++) {
+                for (int j = 0; j < SIZE_DEFAULT_ARRAY - 1; j++) {
+                    if (arr[i][5] != null) {
+                        if (arr[j][5] != null) {
+                            if (arr[j + 1][5] != null) {
+                                if (Integer.parseInt(arr[j][5]) < Integer.parseInt(arr[j + 1][5])) {
 
-            for (int i = 1; i < arr.length; i++) {
-                //count the successive elements as long as they are same
+                                    // Index ke 0 -> Id Penjualan               ---> didapat dari variable ID_PENJUALAN
+                                    // Index ke 1 -> Tanggal Penjualan          ---> didapat dari tanggal saat terjadi transaksi di menu kasir
+                                    // Index ke 2 -> Nama Makanan               ---> didapat dari nama makanan yang dipilih kasir
+                                    // Index ke 3 -> Jenis Makanan              ---> didapat dari jenis makanan yang dipilih kasir
+                                    // Index ke 4 -> Harga Makanan              ---> didapat dari harga makanan yang dipilih kasir
+                                    // Index ke 5 -> Jumlah Makanan             ---> inputan dari kasir berapa jumlah makanan yang di pesan
+                                    // Index ke 6 -> SubTotal Harga Makanan     ---> harga makanan * jumlah makanan
 
-                if (arr[i][2] != null) {
-                    if (arr[i][2].equals(arr[i - 1][2]))
-                        count++;
+                                    String pickedArr0 = arr[j][0];
+                                    String pickedArr1 = arr[j][1];
+                                    String pickedArr2 = arr[j][2];
+                                    String pickedArr3 = arr[j][3];
+                                    String pickedArr4 = arr[j][4];
+                                    String pickedArr5 = arr[j][5];
+                                    String pickedArr6 = arr[j][6];
 
-                    if (!arr[i][2].equals(arr[i - 1][2]) || i == arr.length - 1) {
-                        //compare the count with max_count
-                        if (count > max_count) {
+                                    arr[j][0] = arr[j + 1][0];
+                                    arr[j][1] = arr[j + 1][1];
+                                    arr[j][2] = arr[j + 1][2];
+                                    arr[j][3] = arr[j + 1][3];
+                                    arr[j][4] = arr[j + 1][4];
+                                    arr[j][5] = arr[j + 1][5];
+                                    arr[j][6] = arr[j + 1][6];
 
-                            //update if count is greater
-                            max_count = count;
-                            element = arr[i - 1][2];
+                                    arr[j + 1][0] = pickedArr0;
+                                    arr[j + 1][1] = pickedArr1;
+                                    arr[j + 1][2] = pickedArr2;
+                                    arr[j + 1][3] = pickedArr3;
+                                    arr[j + 1][4] = pickedArr4;
+                                    arr[j + 1][5] = pickedArr5;
+                                    arr[j + 1][6] = pickedArr6;
+
+                                }
+                            }
                         }
-                        //reset count to 1
-                        count = 1;
+
                     }
                 }
-
             }
+        }
 
-            //output the most repeated element along with the count
-
-            System.out.println(">> Menu Makanan Paling Laris");
-            System.out.println(element + " dengan pembelian sebanyak : " + max_count);
-
+        System.out.println(">> Menu Makanan Paling Laris");
+        for (int i = 0; i < 5; i++) {
+            System.out.println((i + 1) + ". " + arr[i][2] + " dengan pembelian sebanyak : " + arr[i][5] + ". Pada tanggal : " + arr[i][1]);
         }
         System.out.println(LINE_BORDER);
-
-
-        //loop through the array elements
-
-
     }
 
     // Method Role Main Menu -------------------------------------------------------------------------------------------
