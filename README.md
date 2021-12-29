@@ -14,6 +14,15 @@ What's New??
     * Release *
 
 ## Screen Shoot Apps
+### Admin
+![ScreenShoot Apps](docs/image/ss_1.png?raw=true)
+
+### Kasir
+![ScreenShoot Apps](docs/image/ss_3.png?raw=true)
+
+### Owner
+![ScreenShoot Apps](docs/image/ss_2.png?raw=true)
+
 
 ## Attention !!!
 - Please enjoy and don't forget fork and give a star
