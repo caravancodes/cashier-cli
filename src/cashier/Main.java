@@ -1,4 +1,4 @@
-
+package cashier;
 /*
  * Created by faisalamir on 15/12/21
  * cashier-cli
@@ -17,72 +17,29 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
-public class Main {
+import static cashier.MainConfig.INSTANCE.*;
 
-    // Setting Apps Variable Constant ----------------------------------------------------------------------------------
-    // Bagian ini merupakan variable yang berisi kontanta untuk program dimana tidak akan diubah nilainya saat program dijalankan
-    static String DEVELOPER_NAME = "PROGRAMMER"; // Constanta Untuk Nama Pengembang Aplikasi
-    static String STORE_NAME = "INDOMART"; // Constanta Untuk Nama Toko Program
-    static String APP_NAME = "SMART POS"; // Constanta Untuk Nama Aplikasi
+public class Main implements IMain, IMainUI, IMainController {
 
-    static String ADMIN_NAME = "Sakura"; // Constanta Untuk Nama Admin
-    static String ADMIN_USERNAME = "0"; // Constanta Untuk Login Username Admin
-    static String ADMIN_PASSWORD = "0"; // Constanta Untuk Login Password Admin
+    private boolean STATE_LOGIN = false; // variable untuk pengecekan aplikasi sedang login atau tidak
+    private final Scanner sc = new Scanner(System.in); // scanner inputan library dari java
 
-    static String KASIR_NAME = "Sasuke"; // Constanta Untuk Nama Kasir
-    static String KASIR_USERNAME = "1"; // Constanta Untuk Login Username Kasir
-    static String KASIR_PASSWORD = "1"; // Constanta Untuk Login Password Kasir
-
-    static String OWNER_NAME = "Naruto"; // Constanta Untuk Login Nama Owner
-    static String OWNER_USERNAME = "2"; // Constanta Untuk Login UserName Owner
-    static String OWNER_PASSWORD = "2"; // Constanta Untuk Login Password Owner
-
-    /* Penjelasan : SIZE DEFAULT ARRAY
-     * Constanta untuk menentukan semua besar array yang akan digunakan,
-     * menggunakan variable ini agar gampang untuk merubah dari semua size array yang akan di deklarasikan
-     */
-    static int SIZE_DEFAULT_ARRAY = 100;
-
-
-    // Main Variable Constant ------------------------------------------------------------------------------------------
-
-    // Penjelasan LINE_BORDER : Constanta Untuk Tampilan Border aplikasi, dibuat constanta agar mudah merubah gaya tampilan aplikasi
-    static String LINE_BORDER = "-------------------------------------------------------";
-    static String ITEM_JENIS_MAKANAN = "Makanan"; // Constant untuk pengecekan percabangan ketika item makanan
-    static String ITEM_JENIS_MINUMAN = "Minuman"; // Constant untuk pengecekan percabangan ketika item minuman
-    static String ITEM_JENIS_SNACK = "Snack"; // Constant untuk pengecekan percabangan ketika item snack
-
-    static String ROLE_USER_ADMIN = "Admin"; // Constant untuk pengecekan percabangan ketika item Admin
-    static String ROLE_USER_KASIR = "Kasir"; // Constant untuk pengecekan percabangan ketika item Kasir
-    static String ROLE_USER_OWNER = "Owner"; // Constant untuk pengecekan percabangan ketika item Owner
-
-    static String STATE_MENU_MAKANAN = "STATE_MENU_MAKANAN"; // Constant untuk pengecekan percabangan ketika item Sorting Berdasakan Nama Makanan
-    static String STATE_MENU_HARGA_TERMAHAL = "STATE_MENU_HARGA_TERMAHAL"; // Constant untuk pengecekan percabangan ketika item Sorting Berdasakan Harga Termurah
-    static String STATE_MENU_HARGA_TERMURAH = "STATE_MENU_HARGA_TERMURAH"; // Constant untuk pengecekan percabangan ketika item Sorting Berdasakan Harga Termahal
-    static String STATE_MENU_JENIS = "STATE_MENU_JENIS"; // Constant untuk pengecekan percabangan ketika item Sorting Berdasakan Jenis Makanan
-
-    static String UI_MASUKKAN_PILIHAN = "Masukkan Pilihan\t\t\t: "; // Constant untuk tampilan "Masukkan Pilihan Agar jaraknya sama semua
-    static String SIMPLE_DATE_FORMAT = "dd/MM/yyyy HH:mm:ss"; // Constant Untuk Format Tanggal Saat ini
-
-    static boolean STATE_LOGIN = false; // variable untuk pengecekan aplikasi sedang login atau tidak
-
-    static Scanner sc = new Scanner(System.in); // scanner inputan library dari java
-    static int INDEX_VALUED_ARRAY_DATA_DAFTAR_MENU = 0; // variable index untuk mengetahui posisi terakhir array daftar menu
-    static int INDEX_VALUED_ARRAY_DATA_JUAL = 0; // variable index untuk mengetahui posisi terakhir array data penjualan
-    static int INDEX_VALUED_ARRAY_DATA_JUAL_TEMP = 0; // variable index untuk mengetahui posisi terakhir array data penjualan sementara
-    static int ID_PENJUALAN = 0; // variable index untuk mengetahui sudah berapa kali transaksi penjualan yang sudah di lakukan oleh kasir
+    private int INDEX_VALUED_ARRAY_DATA_DAFTAR_MENU = 0; // variable index untuk mengetahui posisi terakhir array daftar menu
+    private int INDEX_VALUED_ARRAY_DATA_JUAL = 0; // variable index untuk mengetahui posisi terakhir array data penjualan
+    private int INDEX_VALUED_ARRAY_DATA_JUAL_TEMP = 0; // variable index untuk mengetahui posisi terakhir array data penjualan sementara
+    private int ID_PENJUALAN = 0; // variable index untuk mengetahui sudah berapa kali transaksi penjualan yang sudah di lakukan oleh kasir
     // -----------------------------------------------------------------------------------------------------------------
 
     // Initiasi Variable Global ----------------------------------------------------------------------------------------
 
     // Data Daftar Menu Utama
-    static String[] arrayDataNamaMakanan = new String[SIZE_DEFAULT_ARRAY]; // Nama Makanan, Contoh : Martabak Manis
-    static String[] arrayDataJenisMakanan = new String[SIZE_DEFAULT_ARRAY]; // Jenis Makanan, Contoh : Makanan, Minuman, Snack
-    static int[] arrayDataHargaMakanan = new int[SIZE_DEFAULT_ARRAY]; // Harga Makanan, Contoh : 1000000
+    private final String[] arrayDataNamaMakanan = new String[SIZE_DEFAULT_ARRAY]; // Nama Makanan, Contoh : Martabak Manis
+    private final String[] arrayDataJenisMakanan = new String[SIZE_DEFAULT_ARRAY]; // Jenis Makanan, Contoh : Makanan, Minuman, Snack
+    private final int[] arrayDataHargaMakanan = new int[SIZE_DEFAULT_ARRAY]; // Harga Makanan, Contoh : 1000000
 
     // Data Penjualan
-    static String[][] arrayJual = new String[SIZE_DEFAULT_ARRAY][7]; // Array ini untuk mencatat semua penjualan yang ada dan dijadikan untuk acuan laporan penjualan owner
-    static String[][] arrayJualTemp = new String[SIZE_DEFAULT_ARRAY][7]; // Array ini untuk menampung sementara yang terjadi saat penjualan pada menu kasir
+    private final String[][] arrayJual = new String[SIZE_DEFAULT_ARRAY][7]; // Array ini untuk mencatat semua penjualan yang ada dan dijadikan untuk acuan laporan penjualan owner
+    private final String[][] arrayJualTemp = new String[SIZE_DEFAULT_ARRAY][7]; // Array ini untuk menampung sementara yang terjadi saat penjualan pada menu kasir
     // Index ke 0 -> Id Penjualan               ---> didapat dari variable ID_PENJUALAN
     // Index ke 1 -> Tanggal Penjualan          ---> didapat dari tanggal saat terjadi transaksi di menu kasir
     // Index ke 2 -> Nama Makanan               ---> didapat dari nama makanan yang dipilih kasir
@@ -91,22 +48,22 @@ public class Main {
     // Index ke 5 -> Jumlah Makanan             ---> inputan dari kasir berapa jumlah makanan yang di pesan
     // Index ke 6 -> SubTotal Harga Makanan     ---> harga makanan * jumlah makanan
 
-    // Main Program ----------------------------------------------------------------------------------------------------
+    // cashier.Main Program ----------------------------------------------------------------------------------------------------
     // Dimana Semua Method Kode Program di jalan disini
     public static void main(String[] args) {
         /*
-         * Memanggil Fungsi Main Login
+         * Memanggil Fungsi cashier.Main Login
          * Alasan kenapa main hanya 1 fungsi saja, karena mainLogin() bersifat flexible bisa di panggil dimana saja
          * mainLogin() di panggil dibanyak tempat
          */
-        mainLogin();
+        new Main().mainLogin();
     }
 
     // Method Menu Tampilan --------------------------------------------------------------------------------------------
     // Disini tempatnya Untuk Tampilan tampilan saja
 
     // Ini adalah method untuk menu tampilan ketika login
-    static void loginUI() {
+    public void loginUI() {
         System.out.println(LINE_BORDER);
         System.out.println("SELAMAT DATANG DI " + STORE_NAME.toUpperCase());
         System.out.println("UNTUK MEMULAI APLIKASI " + APP_NAME.toUpperCase());
@@ -115,7 +72,7 @@ public class Main {
     }
 
     // Ini adalah method untuk menu tampilan ketika aplikasi di berhentikan
-    static void exitUI() {
+    public void exitUI() {
         System.out.println(LINE_BORDER);
         System.out.println("APLIKASI BERHENTI !!!");
         System.out.println("TERIMA KASIH TELAH MENGGUNAKAN APLIKASI");
@@ -124,19 +81,19 @@ public class Main {
     }
 
     // Ini adalah method untuk menu tampilan saat user berhasil login, memunculkan sapaan
-    static void greetingUI(String name, String role) {
+    public void greetingUI(String name, String role) {
         System.out.println(">> Hallo " + name + " | " + role);
     }
 
     // Ini adalah method untuk menu tampilan saat berhasil mensorting
-    static void sortUI(String state) {
+    public void sortUI(String state) {
         System.out.println(LINE_BORDER);
         System.out.println("Berhasil Mengurutkan Menu Berdasarkan " + state);
         readMenuMakanan(arrayDataNamaMakanan, arrayDataJenisMakanan, arrayDataHargaMakanan);
     }
 
     // Ini adalah method untuk menu tampilan Log atau history dari user saat login
-    static void logTimeUI(String status) {
+    public void logTimeUI(String status) {
         System.out.println(LINE_BORDER);
         System.out.println(">> Waktu " + status + " : " + getDateTimeNow());
     }
@@ -145,7 +102,7 @@ public class Main {
     // Disini tempatnya method untuk segala macam operasi array yang sudah dibuat, dari menambah, menghapus, mengubah, dan membaca
 
     // Method Dari Laporan untuk mencari index dengan parameter array dan kata
-    static int mCari(String[] array, String kata) {
+    public int mCari(String[] array, String kata) {
         int index = 0;
         for (int i = 0; i < array.length; i++) {
             if (array[i] != null) {
@@ -159,7 +116,7 @@ public class Main {
     }
 
     // Method ini berfungsi untuk menambahkan data array dengan tipe array String
-    static void addDataArrayString(String[] array, String value) {
+    public void addDataArrayString(String[] array, String value) {
         int index = 0; // disini deklarasi dulu didalam method index awalnya 0
         for (int i = 0; i < array.length; i++) { // melakukan perulangan
             if (array[i] != null) { // di check apakah array di posisi i / diposisi perulangan tidak null
@@ -173,7 +130,7 @@ public class Main {
     }
 
     // Method ini berfungsi untuk menambahkan data array dengan tipe array int
-    static void addDataArrayInt(int[] array, int value) { // Parameternya Array dan value
+    public void addDataArrayInt(int[] array, int value) { // Parameternya Array dan value
         int index = 0; // disini deklarasi dulu didalam method index awalnya 0
         for (int i = 0; i < array.length; i++) { // melakukan perulangan
             if (array[i] != 0) { // di check apakah array di posisi i / diposisi perulangan tidak null
@@ -188,7 +145,7 @@ public class Main {
     }
 
     // Method ini berfungsi untuk menghapus data array int
-    static void deleteDataArrayInt(int[] array, int index) { // Parameter array dan index dimana data ingin di hapus
+    public void deleteDataArrayInt(int[] array, int index) { // Parameter array dan index dimana data ingin di hapus
         for (int i = index; i < array.length - 1; i++) { // dilakukan perulangan sesuai panjang dari array - 1
             /*
              * Karena dilakukan delete data array, sebenarnya kita tidak menghapus isi dari array, kita hanya menggeser dan menimpanya
@@ -203,7 +160,7 @@ public class Main {
     }
 
     // Method ini berfungsi untuk menghapus data array String
-    static void deleteDataArrayString(String[] array, int index) { // Parameter array dan index dimana data ingin di hapus
+    public void deleteDataArrayString(String[] array, int index) { // Parameter array dan index dimana data ingin di hapus
         for (int i = index; i < array.length - 1; i++) { // dilakukan perulangan sesuai panjang dari array - 1
             /*
              * Karena dilakukan delete data array, sebenarnya kita tidak menghapus isi dari array, kita hanya menggeser dan menimpanya
@@ -218,17 +175,17 @@ public class Main {
     }
 
     // Method ini berfungsi untuk mengubah data array String
-    static void updateDataArrayString(String[] array, int index, String value) {
+    public void updateDataArrayString(String[] array, int index, String value) {
         array[index] = value;
     }
 
     // Method ini berfungsi untuk mengubah data array String
-    static void updateDataArrayInt(int[] array, int index, int value) {
+    public void updateDataArrayInt(int[] array, int index, int value) {
         array[index] = value;
     }
 
     // Method ini berfungsi untuk menambahkan menu makanan
-    static void addMenuMakanan(String valueNamaMakanan, String valueJenisMakanan, int valueHargaMakanan) {
+    public void addMenuMakanan(String valueNamaMakanan, String valueJenisMakanan, int valueHargaMakanan) {
         // dikarenakan menu makanan sendiri terdapat 3 array, jadi memanggil 3x method fungsi addDataArrayString
         addDataArrayString(arrayDataNamaMakanan, valueNamaMakanan);
         addDataArrayString(arrayDataJenisMakanan, valueJenisMakanan);
@@ -237,7 +194,7 @@ public class Main {
     }
 
     // Method ini berfungsi untuk menghapus menu makanan
-    static void deleteMenuMakanan(String valueMakanan) {
+    public void deleteMenuMakanan(String valueMakanan) {
 
         boolean stateCheck = false; // di deklarasikan variabel status checking apakah makanan inputan user ada di daftar menu atau tidak
         int index = 0; // dideklarasikan variable indexnya
@@ -268,7 +225,7 @@ public class Main {
     }
 
     // Method ini berfungsi untuk mengubah menu makanan
-    static void updateMenuMakanan(int index, String valueNamaMakanan, String valueJenisMakanan, int valueHargaMakanan) {
+    public void updateMenuMakanan(int index, String valueNamaMakanan, String valueJenisMakanan, int valueHargaMakanan) {
         // dikarenakan menu makanan sendiri terdapat 3 array, jadi memanggil 3x method fungsi updateDataArrayString
         updateDataArrayString(arrayDataNamaMakanan, index, valueNamaMakanan);
         updateDataArrayString(arrayDataJenisMakanan, index, valueJenisMakanan);
@@ -276,7 +233,7 @@ public class Main {
     }
 
     // Method ini berfungsi untuk menhapus semua menu makanan
-    static void nukeMenuMakanan() {
+    public void nukeMenuMakanan() {
         // dikarenakan menu makanan sendiri terdapat 3 array, jadi memanggil 3x array untuk di kosongkan nilainya
         for (int i = 0; i <= INDEX_VALUED_ARRAY_DATA_DAFTAR_MENU; i++) {
             arrayDataNamaMakanan[i] = null;
@@ -287,7 +244,7 @@ public class Main {
     }
 
     // Method ini berfungsi untuk menhapus semua data penjualan
-    static void nukeArrayTempJual() {
+    public void nukeArrayTempJual() {
         for (int i = 0; i <= INDEX_VALUED_ARRAY_DATA_JUAL_TEMP; i++) {
             arrayJualTemp[i][0] = null;
             arrayJualTemp[i][1] = null;
@@ -301,7 +258,7 @@ public class Main {
     }
 
     // Method ini berfungsi untuk menampikan daftar menu makanan
-    static void readMenuMakanan(String[] menuMakanan, String[] jenisMakanan, int[] hargaMakanan) {
+    public void readMenuMakanan(String[] menuMakanan, String[] jenisMakanan, int[] hargaMakanan) {
         System.out.println(LINE_BORDER);
         if (INDEX_VALUED_ARRAY_DATA_DAFTAR_MENU == 0) {
             System.out.println("Daftar Menu Kosong");
@@ -317,7 +274,7 @@ public class Main {
     }
 
     // Method ini berfungsi untuk menampikan daftar menu makanan yang sudah di cari
-    static void readMenuMakananSearched(String[][] sortedMenu) {
+    public void readMenuMakananSearched(String[][] sortedMenu) {
         for (int i = 0; i < SIZE_DEFAULT_ARRAY; i++) {
             if (sortedMenu[i][0] != null) {
                 System.out.println((i + 1) + ".\t [" + sortedMenu[i][2] + "] \t" + sortedMenu[i][1] + "\t - " + sortedMenu[i][0]);
@@ -326,7 +283,7 @@ public class Main {
     }
 
     // Method ini berfungsi untuk menampikan daftar menu makanan yang sudah di sortir
-    static void sortMenuMakanan(String[] menuMakanan, String[] jenisMakanan, int[] hargaMakanan, String stateMenu) {
+    public void sortMenuMakanan(String[] menuMakanan, String[] jenisMakanan, int[] hargaMakanan, String stateMenu) {
         for (int i = 0; i < SIZE_DEFAULT_ARRAY - 1; i++) {
             for (int j = 0; j < SIZE_DEFAULT_ARRAY - 1; j++) {
 
@@ -419,7 +376,7 @@ public class Main {
     }
 
     // Method ini berfungsi untuk mencari menu
-    static void searchMenu(String state) {
+    public void searchMenu(String state) {
         System.out.print("Cari {String Makanan} \t\t: ");
         String inKeyword = sc.next();
 
@@ -460,7 +417,7 @@ public class Main {
     }
 
     // Method ini berfungsi untuk mencari menu pada menu kasir
-    static String[][] searchMenuMakanan(String[] menuMakanan, int[] hargaMakanan, String[] jenisMakanan, String stateMenu, String keyword) {
+    public String[][] searchMenuMakanan(String[] menuMakanan, int[] hargaMakanan, String[] jenisMakanan, String stateMenu, String keyword) {
         String[][] searchedArray = new String[SIZE_DEFAULT_ARRAY][3];
         int idx = 0;
         for (int i = 0; i < SIZE_DEFAULT_ARRAY; i++) {
@@ -489,7 +446,7 @@ public class Main {
     }
 
     // Method ini berfungsi untuk menampilkan laporan penjualan pada menu owner
-    static void readPenjualan() {
+    public void readPenjualan() {
         int totalKeuntungan = 0;
         System.out.println(LINE_BORDER);
         if (INDEX_VALUED_ARRAY_DATA_JUAL == 0) {
@@ -518,7 +475,7 @@ public class Main {
     }
 
     // Method ini berfungsi untuk menampilkan makanan paling sering di beli
-    static void readPenjualanLaris(String[][] arr) {
+    public void readPenjualanLaris(String[][] arr) {
 
         System.out.println(LINE_BORDER);
         if (INDEX_VALUED_ARRAY_DATA_JUAL == 0) {
@@ -579,10 +536,10 @@ public class Main {
         System.out.println(LINE_BORDER);
     }
 
-    // Method Role Main Menu -------------------------------------------------------------------------------------------
+    // Method Role cashier.Main Menu -------------------------------------------------------------------------------------------
 
     // Method ini berisi semua fungsi dari Kasir
-    static void mainKasir() {
+    public void mainKasir() {
         greetingUI(KASIR_NAME, ROLE_USER_KASIR);
         logTimeUI("Login");
         System.out.println(LINE_BORDER);
@@ -694,7 +651,7 @@ public class Main {
     }
 
     // Method ini berisi semua fungsi dari Admin
-    static void mainAdmin() {
+    public void mainAdmin() {
         greetingUI(ADMIN_NAME, ROLE_USER_ADMIN);
         logTimeUI("Login");
         System.out.println(LINE_BORDER);
@@ -810,7 +767,7 @@ public class Main {
     }
 
     // Method ini berisi semua fungsi dari Owner
-    static void mainOwner() {
+    public void mainOwner() {
         greetingUI(OWNER_NAME, ROLE_USER_OWNER);
         logTimeUI("Login");
         System.out.println(LINE_BORDER);
@@ -845,7 +802,7 @@ public class Main {
     }
 
     // Method ini untuk mengatur login dan merupakan inti dari aplikasi
-    static void mainLogin() {
+    public void mainLogin() {
         int loopLogin = 0;
         do {
             loginUI();
@@ -892,14 +849,14 @@ public class Main {
     // Method Campur Campur --------------------------------------------------------------------------------------------
 
     // Method ini untuk mendapatkan tanggal hari ini
-    static String getDateTimeNow() {
+    public String getDateTimeNow() {
         DateFormat dateFormat = new SimpleDateFormat(SIMPLE_DATE_FORMAT);
         Date date = new Date();
         return dateFormat.format(date);
     }
 
     // Method ini untuk menambahkan data menu secara otomatis
-    static void initAutoMenu(int startIndex) {
+    public void initAutoMenu(int startIndex) {
         arrayDataNamaMakanan[startIndex] = "MartabakSapi";
         arrayDataHargaMakanan[startIndex] = 31000;
         arrayDataJenisMakanan[startIndex] = ITEM_JENIS_MAKANAN;
